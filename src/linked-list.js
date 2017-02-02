@@ -1,70 +1,108 @@
 const Node = require('./node');
 
 class LinkedList {
-    constructor() {
-      this.length = 0;
-      this._head = null;
-      this._tail = null;
-      console.info('constructor', this);
+  constructor() {
+    this.length = 0;
+    this._head = null;
+    this._tail = null;
+    console.info('constructor', this);
+  }
+
+  append(data) {
+
+    // create node
+    let node = new Node(data);
+
+    if (this.length == 0) {
+
+      // set defaul value
+      this._head = node;
+      this._tail = node;
+
+    } else {
+
+      // save _tail node
+      let tailNode = this._tail;
+
+      // set new next _tail node
+      tailNode.next = node;
+
+      // set new prev _tail node
+      node.prev = tailNode;
+
+      // set new _tail node
+      this._tail = node;
     }
 
-    append(data) {
-      console.info('append', 'this.length : ' + this.length, 'data : ' + data);
+    this.length++;
+  }
 
-      let node,
-          currentIndex = this.length,
-          newIndex = this.length++;
+  head() {
+    return this.hasOwnProperty('_head') ? this._head.data : null;
+  }
 
-      if (currentIndex == 0) {
-        node = new Node();
-        this._head = node;
-        this._tail = node;
+  tail() {
+    return this.hasOwnProperty('_tail') ? this._tail.data : null;
+  }
+
+  at(index) {
+
+    let node = 1,
+        listLength = this.length - 1,
+        count = 1;
+
+    if (index >= 0 && index <= listLength) {
+
+      if (index == 0) {
+
+        // set node _head
+        node = this._head;
+
+      } else if (index > 0 && index < listLength) {
+
+        // set node _head
+        node = this._head;
+
+        // run loop and check conditions
+        while (count <= index) {
+          node = node.next;
+          count++;
+        }
+
       } else {
-        node = new Node(data, currentIndex, newIndex);
-        this._head = node;
-        this._tail = node;
+        // set node _tail
+        node = this._tail;
       }
-
-      console.info('append end', this);
+    } else {
+      console.error('can not return Node.data by index : ' + index);
     }
 
-    head() {
-      console.info('head', this);
-      return this._head;
-    }
+    return node.hasOwnProperty('data') ? node.data : null;
+  }
 
-    tail() {
-      console.info('tail', this);
-      return this._tail;
-    }
+  insertAt(index, data) {
+    console.info('insertAt', index, data);
+  }
 
-    at(index) {
-      console.info('at', this);
-    }
+  isEmpty() {
+    // console.info('isEmpty', this);
+  }
 
-    insertAt(index, data) {
-      console.info('insertAt', this);
-    }
+  clear() {
+    // console.info('clear', this);
+  }
 
-    isEmpty() {
-      console.info('isEmpty', this);
-    }
+  deleteAt(index) {
+    // console.info('deleteAt', this);
+  }
 
-    clear() {
-      console.info('clear', this);
-    }
+  reverse() {
+    // console.info('reverse', this);
+  }
 
-    deleteAt(index) {
-      console.info('deleteAt', this);
-    }
-
-    reverse() {
-      console.info('reverse', this);
-    }
-
-    indexOf(data) {
-      console.info('indexOf', this);
-    }
+  indexOf(data) {
+    // console.info('indexOf', this);
+  }
 }
 
 module.exports = LinkedList;
