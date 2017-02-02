@@ -81,15 +81,66 @@ class LinkedList {
   }
 
   insertAt(index, data) {
-    console.info('insertAt', index, data);
+
+    let newNode = new Node(data),
+        listLength = this.length - 1,
+        count = 1,
+        currentNode;
+
+    if (index == 0 && listLength > 0) {
+
+      // set newNode next
+      newNode.next = this._head;
+
+      // set new _head node
+      this._head = newNode;
+
+      // set old _head prev
+      this._head.next.prev = this._head;
+
+    } else if (index > 0 && index <= listLength) {
+
+      // set node _head
+      currentNode = this._head;
+
+      // run loop and check conditions
+      while (count <= index) {
+        currentNode = currentNode.next;
+        count++;
+      }
+
+      // set newNode prev
+      newNode.prev = currentNode.prev;
+
+      // set currentNode.prev
+      currentNode.prev = newNode;
+
+      // set newNode next
+      newNode.next = currentNode;
+
+      // set prev node before newNode
+      newNode.prev.next = newNode;
+
+    } else {
+      // append node if have issue
+      this.append(data);
+    }
+
+    this.length++;
   }
 
   isEmpty() {
-    // console.info('isEmpty', this);
+    return !this.length;
   }
 
   clear() {
-    // console.info('clear', this);
+
+    // create node
+    let node = new Node();
+
+    this.length = 0;
+    this._head = node;
+    this._tail = node;
   }
 
   deleteAt(index) {
