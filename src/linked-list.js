@@ -5,7 +5,6 @@ class LinkedList {
     this.length = 0;
     this._head = null;
     this._tail = null;
-    console.info('constructor', this);
   }
 
   append(data) {
@@ -35,6 +34,8 @@ class LinkedList {
     }
 
     this.length++;
+
+    return this;
   }
 
   head() {
@@ -47,7 +48,7 @@ class LinkedList {
 
   at(index) {
 
-    let node = 1,
+    let node = null,
         listLength = this.length - 1,
         count = 1;
 
@@ -74,7 +75,7 @@ class LinkedList {
         node = this._tail;
       }
     } else {
-      console.error('can not return Node.data by index : ' + index);
+      console.error(`can not return Node.data by index : ${index}`);
     }
 
     return node.hasOwnProperty('data') ? node.data : null;
@@ -127,6 +128,8 @@ class LinkedList {
     }
 
     this.length++;
+
+    return this;
   }
 
   isEmpty() {
@@ -141,18 +144,109 @@ class LinkedList {
     this.length = 0;
     this._head = node;
     this._tail = node;
+
+    return this;
   }
 
   deleteAt(index) {
-    // console.info('deleteAt', this);
+
+    let node = null,
+        listLength = this.length - 1,
+        count = 1;
+
+    if (index >= 0 && index <= listLength) {
+
+      if (index == 0) {
+
+        this.clear();
+
+      } else if (index > 0 && index < listLength) {
+
+        // set node _head
+        node = this._head;
+
+        // run loop and check conditions
+        while (count <= index) {
+          node = node.next;
+          count++;
+        }
+
+        // set next node prev
+        node.next.prev = node.prev;
+
+        // set prev node next
+        node.prev.next = node.next;
+
+        // remove current node
+        node = node.next;
+
+      } else {
+
+        // delete node _teal
+        this._tail = this._tail.prev;
+        this._tail.next = null;
+      }
+
+      this.length--;
+    } else {
+      console.error(`can not delete element by index : ${index}`);
+    }
+
+    return this;
   }
 
   reverse() {
-    // console.info('reverse', this);
+
+    let tailNode = this._tail,
+        listLength = this.length - 1,
+        nextNode = null,
+        head = null;
+
+
+    while (listLength > 0) {
+
+      // get _tail next
+      nextNode = tailNode.next;
+
+      // set _tail next
+      tailNode.next = tailNode.prev;
+
+      // set _tail prev
+      tailNode.prev = nextNode;
+
+      // set _tail node on _tail.next
+      tailNode = tailNode.next;
+
+      listLength--;
+    }
+
+    // save _head
+    head = this._head;
+
+    // set new _head on _tail
+    this._head = this._tail;
+
+    // set new _tail on _head
+    this._tail = head;
+
+    return this;
   }
 
   indexOf(data) {
-    // console.info('indexOf', this);
+
+    let node = this._head,
+        listLength = this.length - 1,
+        count = 0;
+
+    while (count <= listLength) {
+      if (node.data === data) {
+        return count;
+      }
+      node = node.next;
+      count++;
+    }
+
+    return -1;
   }
 }
 
